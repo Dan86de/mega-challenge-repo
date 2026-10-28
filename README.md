@@ -14,9 +14,13 @@ Read with the desk's own cause logic and notes, those reports describe three dif
 
 374 + 33 + 5 = 412: each report counts once, under the problem it actually describes.
 
+Desk resolution (engineering update on the challenge page): #4471 closed 05 Oct.
+`parser` fixed ("fix(dates): parse dd/mm for eu locales"), `hint` won't fix (booking-v3 form retired), the one-day moves unaddressed.
+The issues here are closed to mirror that.
+
 ## The kb page
 
-- Source: [`support-kb/src/routes/kb/incidents/4471-what-it-shows/+page.svx`](support-kb/src/routes/kb/incidents/4471-what-it-shows/+page.svx), signed (desk ref `DR-HWF8-APMY`).
+- Source: [`support-kb/src/routes/kb/incidents/4471-what-it-shows/+page.svx`](support-kb/src/routes/kb/incidents/4471-what-it-shows/+page.svx), signed (desk ref `DR-W4E0-GJM6`).
 - Counts are computed at render time by [`ProblemTable.svelte`](support-kb/src/lib/kb/ProblemTable.svelte) and [`problems.ts`](support-kb/src/lib/kb/problems.ts), per the kb rule that a number that can be computed belongs in a component.
 - As the desk will see it: the prerendered site is in [`rendered/site/`](rendered/site) (the page at `rendered/site/kb/incidents/4471-what-it-shows.html`); screenshots in [`rendered/screenshots/`](rendered/screenshots).
 

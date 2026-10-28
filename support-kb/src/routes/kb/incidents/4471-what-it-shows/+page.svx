@@ -4,7 +4,7 @@ title: '#4471 · what it shows: three problems, not one'
 owner: daniel (student)
 status: proposed
 reviewed: 2026-10-28
-signature: 'Daniel Noworyta · Dan86de'
+signature: 'v1.eyJzdWIiOiIyNjMiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5MzE3NTE4MSwiZXhwIjoxNzkzMjYxNTgxfQ.vCZ2Z_OAEiF-VRZywyCpqyM8kXIU2gBuQrLkkfnVGvg'
 ---
 
 <script>
@@ -33,8 +33,9 @@ Each now has a ticket of its own, with the count of reports it covers.
 - **`one-day move`** - dates that moved by exactly one day, which no day/month swap can produce. The clearest report saw the same meeting render as Tuesday in Lisbon and Monday in Toronto: a timezone or day-boundary bug. The desk flagged these ids in `desk-notes.json` but footnoted them under #4471 instead of splitting them out.
 
 <Callout kind="warn">
-The queued fix is for the shared parser.
-The table shows how many reports it will stop, and how many it will not: the <code>hint</code> reports are wrong in the database the moment the form saves them, and the <code>one-day move</code> reports never involved a swap at all.
+Update from the desk's engineering note: #4471 closed 05 Oct.
+<code>parser</code> is fixed ("fix(dates): parse dd/mm for eu locales") and <code>hint</code> is won't-fix, because the booking-v3 form is retired.
+The <code>one-day move</code> reports are covered by neither: they never involved a swap, and they remain unexplained.
 </Callout>
 
 ## How one ticket swallowed three problems
