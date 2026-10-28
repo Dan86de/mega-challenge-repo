@@ -1,0 +1,53 @@
+---
+layout: runbook
+title: '#4471 · what it shows: three problems, not one'
+owner: daniel (student)
+status: proposed
+reviewed: 2026-10-28
+signature: 'Daniel Noworyta · Dan86de'
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const tickets = {
+    'parser': 'https://github.com/Dan86de/mega-challenge-repo/issues/1',
+    'hint': 'https://github.com/Dan86de/mega-challenge-repo/issues/2',
+    'one-day move': 'https://github.com/Dan86de/mega-challenge-repo/issues/3',
+  };
+</script>
+
+[#4471](/kb/incidents/4471) is marked **known**: one issue, one fix queued.
+The reports inside it say otherwise.
+Read with the desk's own cause logic (`causes.ts`) and the desk's own notes (`desk-notes.json`), they describe three different problems.
+Each now has a ticket of its own, with the count of reports it covers.
+
+## The three problems
+
+<ProblemTable ticket={4471} tickets={tickets} />
+
+- **`parser`** - the shared parser reads every date month-first; all tenants on file write day-first, so stored dates come back with day and month swapped.
+- **`hint`** - the `booking-v3` form prints `MM/DD/YYYY` under its date field but parses the input day-first; people obey the hint, so the swapped date is stored at entry. Form channel only, `booking-v3` tenants only. Fixing the shared parser does not touch these.
+- **`one-day move`** - dates that moved by exactly one day, which no day/month swap can produce. The clearest report saw the same meeting render as Tuesday in Lisbon and Monday in Toronto: a timezone or day-boundary bug. The desk flagged these ids in `desk-notes.json` but footnoted them under #4471 instead of splitting them out.
+
+<Callout kind="warn">
+The queued fix is for the shared parser.
+The table shows how many reports it will stop, and how many it will not: the <code>hint</code> reports are wrong in the database the moment the form saves them, and the <code>one-day move</code> reports never involved a swap at all.
+</Callout>
+
+## How one ticket swallowed three problems
+
+Triage merges on subject line alone ([decision 0001](/kb/decisions/0001-dedupe-by-subject)).
+All three problems produce the same subjects: an invite on the wrong day.
+And the intake tag could not catch it either: the table's "tagged as" column shows intake guessing `parser` and `hint` on both sides, because the tag comes from the reporter's browser, while the cause depends on the tenant's locale, form and channel.
+
+## Where the counts come from
+
+Nothing in the table above is typed in: `ProblemTable` computes it at render time from `reports-4471.json`.
+The export holds overlapping pages, so reports are deduplicated by id first (`uniqueById`).
+Each report then counts once, under the problem it actually describes: the desk's `oneDayMove` notes take precedence, then `causeOf` splits `parser` from `hint`.
+This differs from [the incident page's CauseTable](/kb/incidents/4471) only in that the one-day moves are counted as their own problem instead of footnoted where they were filed.
+
+<RenderStamp {signature} />
